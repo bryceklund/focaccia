@@ -8,7 +8,7 @@
 typedef enum {
   OP_CONSTANT,
   OP_RETURN,
-} OpCode;
+} OpCode; // operation code
 
 typedef struct {
   int count;
