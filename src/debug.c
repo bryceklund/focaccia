@@ -7,7 +7,7 @@
 
 void disassembleChunk(Chunk *chunk, const char *name) {
   printf("==== %s (%d) ===================\n", name, chunk->count);
-  printf("pos-----line-code------------const--val");
+  printf("pos     line code            const  val");
   //              0000     123 OP_CONSTANT         0 '1.2'
 
 #ifndef DEBUG_TRACE_EXECUTION

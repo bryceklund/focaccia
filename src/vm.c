@@ -41,8 +41,10 @@ static InterpretResult run() {
   for (;;) {
     // debug stuff
 #ifdef DEBUG_TRACE_EXECUTION
+    if (vm.stack < vm.stackTop)
+      printf(" -> ");
     for (Value *slot = vm.stack; slot < vm.stackTop; slot++) {
-      printf(" -> [ ");
+      printf("[ ");
       printValue(*slot);
       printf(" ]");
     }
