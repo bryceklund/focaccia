@@ -39,12 +39,10 @@ static InterpretResult run() {
   } while (false)
 
   for (;;) {
-
-    // debug shit
+    // debug stuff
 #ifdef DEBUG_TRACE_EXECUTION
-    printf("        ");
     for (Value *slot = vm.stack; slot < vm.stackTop; slot++) {
-      printf("[ ");
+      printf(" -> [ ");
       printValue(*slot);
       printf(" ]");
     }
@@ -58,8 +56,6 @@ static InterpretResult run() {
       case OP_CONSTANT: {
         Value constant = READ_CONSTANT();
         push(constant);
-        printValue(constant);
-        printf("\n");
         break;
       }
       case OP_ADD:
@@ -87,6 +83,7 @@ static InterpretResult run() {
 
 #undef READ_BYTE
 #undef READ_CONSTANT
+#undef BINARY_OP
 }
 
 InterpretResult interpret(Chunk *chunk) {

@@ -1,14 +1,20 @@
 #include <stdio.h>
 
+#include "chunk.h"
+#include "common.h"
 #include "debug.h"
 #include "value.h"
 
 void disassembleChunk(Chunk *chunk, const char *name) {
-  printf("=== %s (%d) ===\n", name, chunk->count);
+  printf("==== %s (%d) ===================\n", name, chunk->count);
+  printf("pos-----line-code------------const--val");
+  //              0000     123 OP_CONSTANT         0 '1.2'
 
+#ifndef DEBUG_TRACE_EXECUTION
   for (int offset = 0; offset < chunk->count;) {
     offset = disassembleInstruction(chunk, offset);
   }
+#endif
 }
 
 static int simpleInstruction(const char *name, int offset) {
@@ -39,6 +45,16 @@ int disassembleInstruction(Chunk *chunk, int offset) {
       return simpleInstruction("OP_RETURN", offset);
     case OP_CONSTANT:
       return constantInstruction("OP_CONSTANT", chunk, offset);
+    case OP_ADD:
+      return simpleInstruction("OP_ADD", offset);
+    case OP_SUBTRACT:
+      return simpleInstruction("OP_SUBTRACT", offset);
+    case OP_MULTIPLY:
+      return simpleInstruction("OP_MULTIPLY", offset);
+    case OP_DIVIDE:
+      return simpleInstruction("OP_DIVIDE", offset);
+    case OP_NEGATE:
+      return simpleInstruction("OP_NEGATE", offset);
     default:
       printf("Unknown opcode %d\n", instruction);
       return offset + 1;
