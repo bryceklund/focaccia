@@ -1,3 +1,4 @@
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -5,13 +6,29 @@
 #include "common.h"
 #include "vm.h"
 
+static char *ltrim(char *str) {
+  while (isspace(*str))
+    str++;
+  return str;
+}
+
+static char *rtrim(char *str) {
+  char *back = str + strlen(str);
+  while (isspace(*--back))
+    ;
+  *(back + 1) = '\0';
+  return str;
+}
+
+static char *trim(char *str) { return rtrim(ltrim(str)); }
+
 static void repl() {
   char line[1024];
   for (;;) {
     printf("> ");
 
-    if (!fgets(line, sizeof(line), stdin)) {
-      printf("\n");
+    if (!fgets(line, sizeof(line), stdin) || strcmp(trim(line), "exit") == 0) {
+      printf("goodbyte :)\n");
       break;
     }
 
